@@ -1,2 +1,2 @@
-# CS471_Assignment_1
+# Pacman Search
 
