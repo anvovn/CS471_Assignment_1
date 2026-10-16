@@ -490,10 +490,27 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     Subsequent calls to this heuristic can access
     problem.heuristicInfo['wallCount']
     """
-    position, foodGrid = state
-    "*** YOUR CODE HERE ***"
-    return 0
 
+    position, foodGrid = state
+    foodPositions = foodGrid.asList() # List of food coordinates
+
+    x, y = position # Pacman position
+    points = [position] + foodPositions # Remaining food positions
+    estimate = 0
+
+    # Using the same corners heuristic approach:
+    for i in range(len(points)):
+        for j in range(i + 1, len(points)):
+            # Calculate the Manhattan distance between the two points
+            distance = (
+                abs(points[i][0] - points[j][0])
+                + abs(points[i][1] - points[j][1])
+            )
+            # Update the estimate to be the maximum distance found so far
+            estimate = max(estimate, distance)
+
+    return estimate
+        
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
     def registerInitialState(self, state):
@@ -522,8 +539,8 @@ class ClosestDotSearchAgent(SearchAgent):
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # We can just use bfs to find the shortest path to the closest dots
+        return search.bfs(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -558,8 +575,8 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         """
         x,y = state
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # Determine if there is food at the position
+        return self.food[x][y]  
 
 def mazeDistance(point1: Tuple[int, int], point2: Tuple[int, int], gameState: pacman.GameState) -> int:
     """

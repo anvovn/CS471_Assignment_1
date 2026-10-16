@@ -88,7 +88,7 @@ def depthFirstSearch(problem: SearchProblem):
     """
     frontier = util.Stack()
     frontier.push((problem.getStartState(), []))
-    explored = set()\
+    explored = set()
 
     while not frontier.isEmpty():
         # Pop a state and its corresponding actions from the frontier
